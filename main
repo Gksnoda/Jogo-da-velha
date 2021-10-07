@@ -1,0 +1,93 @@
+#Criando jogo da velha
+import os
+
+def Escolha_jogadores():
+
+  Escolha = ''
+  while not(Escolha == 'X' or Escolha == 'O'):
+    Escolha = input('Jogador 1 deseja ser X ou O? ').upper()
+
+  if(Escolha == 'X'):
+    return('X', 'O')
+  else: 
+    return('O', 'X')
+
+
+
+def Printar_menu(lista):
+  print('  '+lista[0]+'  |  '+lista[1]+'  |  '+lista[2])
+  print('-----------------')
+  print('  '+lista[3]+'  |  '+lista[4]+'  |  '+lista[5])
+  print('-----------------')
+  print('  '+lista[6]+'  |  '+lista[7]+'  |  '+lista[8])
+
+
+
+def Checagem_vitoria(lista, marca):
+
+  if (lista[0] == marca and lista[1] == marca and lista[2] == marca) or  
+  (lista[3] == marca and lista[4] == marca and lista[5] == marca ) or 
+  (lista[6] == marca and lista[7] == marca and lista[8] == marca) or 
+  (lista[0] == marca and lista[3] == marca and lista[6] == marca) or 
+  (lista[1] == marca and lista[4] == marca and lista[7] == marca) or 
+  (lista[2] == marca and lista[5] == marca and lista[8] == marca) or 
+  (lista[0] == marca and lista[4] == marca and lista[8] == marca) or 
+  (lista[2] == marca and lista[4] == marca and lista[6] == marca):
+    return True
+
+numeros = [i for i in range(1, 10)]
+
+def Checagem_empate(lista):
+  for i in lista:
+    if i == ' ':
+      return False
+  return True
+
+
+
+def Escolher_posicao(lista, numeros):
+
+  pos = 11
+  while pos not in numeros:
+    pos = int(input('Escolha um lugar(1 - 9) valido para marcar: '))
+
+  if lista[pos-1] != ' ':
+    return Escolher_posicao(lista, numeros)
+  return pos-1
+
+
+
+
+print('Bem vindo ao jogo da velha!')
+P1, P2 = Escolha_jogadores()
+pos = ''
+print('\n')
+menu = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+game_set = True
+Printar_menu(menu)
+
+while game_set:
+
+  print('\nRodada do Jogador 1')
+  pos = Escolher_posicao(menu, numeros)
+  menu[pos] = P1
+  os.system('clear')
+  Printar_menu(menu)
+  if Checagem_vitoria(menu, P1):
+    print('Parabens, voce (Jogador 1) ganhou!')
+    break
+  elif Checagem_empate(menu):
+    print('Empate!')
+    break
+
+  print('\nRodada do Jogador 2')
+  pos = Escolher_posicao(menu, numeros)
+  menu[pos] = P2
+  os.system('clear')
+  Printar_menu(menu)
+  if Checagem_vitoria(menu, P2):
+    print('Parabens, voce (Jogador 2) ganhou!')
+    break
+  elif Checagem_empate(menu):
+    print('Empate!')
+    break
